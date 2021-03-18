@@ -1,0 +1,57 @@
+service: fm-ach-service
+
+plugins:
+  - serverless-domain-manager
+
+provider:
+  name: aws
+  stage: ${opt:stage,'dev'}
+  runtime: java8
+  versionFunctions: false
+  logs:
+    restApi: true
+
+package:
+  artifact: target/ach.service-0.0.1-lambda-package.zip
+
+custom:
+  customDomain: ${self:custom.domains.${opt:stage,'dev'}}
+  domains:
+    dev:
+      domainName: 'api-dev.carla.tech'
+      certificateName: '*.carla.tech'
+      basePath: 'ach'
+      stage: dev
+      createRoute53Record: true
+    prod:
+      domainName: 'api.carla.tech'
+      certificateName: '*.carla.tech'
+      basePath: 'ach'
+      stage: prod
+      createRoute53Record: true
+  subnetIds:
+    dev:
+      - subnet-064c63d882d6996ed
+    prod:
+      - subnet-03daadc95a77d4a54
+      - subnet-0978438832ecc0ccf
+  securityGroupIds:
+    dev:
+      - sg-016d032b81a8f8805
+    prod:
+      - sg-0c300e927bdc33eaa
+
+functions:
+  achServices:
+    timeout: 28
+    handler: com.financialomejor.ach.ACHLambdaHandler
+    memorySize: 2048
+    vpc:
+      subnetIds: ${self:custom.subnetIds.${opt:stage,'dev'}}
+      securityGroupIds: ${self:custom.securityGroupIds.${opt:stage,'dev'}}
+    events:
+      - http:
+          integration: lambda-proxy
+          path: /{proxy+}
+          method: ANY
+          cors: true

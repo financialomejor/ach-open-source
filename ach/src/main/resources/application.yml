@@ -1,0 +1,25 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: registraduria-service
+
+ribbon:
+  ServerListRefreshInterval: 1000
+
+endpoints:
+  health:
+    sensitive: false
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+
+#Logs into STDOUT.
+#TRACE=Shows all that happens in code level
+#DEBUG=Shows all that the app does without showing code. Perfect to check de SOAP requests.
+#INFO=Normal STDOUT
+logging:
+  level:
+    root: INFO

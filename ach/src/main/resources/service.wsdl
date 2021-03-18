@@ -1,0 +1,1983 @@
+<wsdl:definitions
+	xmlns:s="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	xmlns:tns="http://vesta.com.br/pse/MainServices"
+	xmlns:s0="http://www.uc-council.org/smp/schemas/eanucc"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	targetNamespace="http://vesta.com.br/pse/MainServices">
+	<wsdl:types>
+		<s:schema elementFormDefault="qualified"
+			targetNamespace="http://www.uc-council.org/smp/schemas/eanucc">
+			<s:element name="getBankList">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="getBankListInformation"
+							type="s0:getbankListInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="getbankListInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="entityCode"
+						type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="getBankListResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="unbounded"
+							name="getBankListResponseInformation"
+							type="s0:getBankListResponseInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="getBankListResponseInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="financialInstitutionCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="financialInstitutionName" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="messageHeader" type="s0:MessageHeaderType" />
+			<s:complexType name="MessageHeaderType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="to"
+						type="s0:PartyIdentificationType" />
+					<s:element minOccurs="0" maxOccurs="1" name="from"
+						type="s0:PartyIdentificationType" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="representingParty" type="s0:PartyIdentificationType" />
+				</s:sequence>
+				<s:anyAttribute />
+			</s:complexType>
+			<s:complexType name="PartyIdentificationType">
+				<s:sequence>
+					<s:choice minOccurs="1" maxOccurs="1">
+						<s:element minOccurs="0" maxOccurs="1"
+							name="alternatePartyIdentification"
+							type="s0:AlternatePartyIdentificationType" />
+						<s:element minOccurs="0" maxOccurs="1" name="gln"
+							type="s:nonNegativeInteger" />
+					</s:choice>
+					<s:element minOccurs="0" maxOccurs="unbounded"
+						name="additionalPartyIdentification"
+						type="s0:AlternatePartyIdentificationType" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="AlternatePartyIdentificationType">
+				<s:simpleContent>
+					<s:extension base="s:string">
+						<s:attribute form="qualified" name="type"
+							type="s0:AlternatePartyIdentificationListType" use="required" />
+					</s:extension>
+				</s:simpleContent>
+			</s:complexType>
+			<s:simpleType
+				name="AlternatePartyIdentificationListType">
+				<s:restriction base="s:string">
+					<s:enumeration value="BUYER_ASSIGNED" />
+					<s:enumeration value="DUNS" />
+					<s:enumeration value="DUNS_PLUS_FOUR" />
+					<s:enumeration value="SCAC" />
+					<s:enumeration value="SELLER_ASSIGNED" />
+					<s:enumeration value="UN_LOCATION_CODE" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="createTransactionPayment">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="createTransactionPaymentInformation"
+							type="s0:createTransactionPaymentInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="createTransactionPaymentInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="financialInstitutionCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="entityCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="serviceCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="transactionValue" type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="vatValue"
+						type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="ticketId"
+						type="s:nonNegativeInteger" />
+					<s:element minOccurs="0" maxOccurs="1" name="entityurl"
+						type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="userType"
+						type="s0:userTypeListType" />
+					<s:element minOccurs="0" maxOccurs="unbounded"
+						name="referenceNumber" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="soliciteDate" type="s:date" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="paymentDescription" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="AmountType">
+				<s:simpleContent>
+					<s:extension base="s:decimal">
+						<s:attribute form="qualified" name="currencyISOcode"
+							type="s:string" />
+					</s:extension>
+				</s:simpleContent>
+			</s:complexType>
+			<s:simpleType name="userTypeListType">
+				<s:restriction base="s:string">
+					<s:enumeration value="0" />
+					<s:enumeration value="1" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="createTransactionPaymentResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="createTransactionPaymentResponseInformation"
+							type="s0:createTransactionPaymentResponseInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="createTransactionPaymentResponseInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+						type="s0:createTransactionPaymentResponseReturnCodeList" />
+					<s:element minOccurs="0" maxOccurs="1" name="bankurl"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="transactionCycle" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="createTransactionPaymentResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_ENTITYNOTEXISTSORDISABLED" />
+					<s:enumeration value="FAIL_BANKNOTEXISTSORDISABLED" />
+					<s:enumeration value="FAIL_SERVICENOTEXISTS" />
+					<s:enumeration value="FAIL_INVALIDAMOUNT" />
+					<s:enumeration value="FAIL_INVALIDSOLICITDATE" />
+					<s:enumeration value="FAIL_BANKUNREACHEABLE" />
+					<s:enumeration value="FAIL_NOTCONFIRMEDBYBANK" />
+					<s:enumeration value="FAIL_CANNOTGETCURRENTCYCLE" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+					<s:enumeration value="FAIL_TIMEOUT" />
+					<s:enumeration value="FAIL_DESCRIPTIONNOTFOUND" />
+					<s:enumeration value="FAIL_EXCEEDEDLIMIT" />
+					<s:enumeration value="FAIL_TRANSACTIONNOTALLOWED" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="confirmTransactionPayment">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="confirmTransactionPaymentInformation"
+							type="s0:confirmTransactionPaymentInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="confirmTransactionPaymentInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="financialInstitutionCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="entityCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="transactionValue" type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="vatValue"
+						type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="ticketId"
+						type="s:nonNegativeInteger" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="soliciteDate" type="s:date" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="bankProcessDate" type="s:date" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="transactionState"
+						type="s0:confirmTransactionPaymentTransactionStateCodeList" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="authorizationId" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="confirmTransactionPaymentTransactionStateCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="OK" />
+					<s:enumeration value="NOT_AUTHORIZED" />
+					<s:enumeration value="PENDING" />
+					<s:enumeration value="FAILED" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="confirmTransactionPaymentResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="confirmTransactionPaymentResponseInformation"
+							type="s0:confirmTransactionPaymentResponseInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="confirmTransactionPaymentResponseInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+						type="s0:confirmTransactionPaymentResponseReturnCodeList" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="transactionState"
+						type="s0:confirmTransactionPaymentTransactionStateCodeList" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="confirmTransactionPaymentResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_INVALIDTRAZABILITYCODE" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+					<s:enumeration value="FAIL_INVALIDSTATE" />
+					<s:enumeration value="FAIL_INVALIDBANKPROCESSINGDATE" />
+					<s:enumeration value="FAIL_INVALIDAUTHORIZEDAMOUNT" />
+					<s:enumeration value="FAIL_INCONSISTENTDATA" />
+					<s:enumeration value="FAIL_TIMEOUT" />
+					<s:enumeration value="FAIL_INVALIDVATVALUE" />
+					<s:enumeration value="FAIL_INVALIDTICKETID" />
+					<s:enumeration value="FAIL_INVALIDSOLICITEDATE" />
+					<s:enumeration value="FAIL_INVALIDAUTHORIZATIONID" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="getTransactionInformation">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="getTransactionInformationBody"
+							type="s0:getTransactionInformationBodyType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="getTransactionInformationBodyType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="entityCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="getTransactionInformationResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="getTransactionInformationResponseBody"
+							type="s0:getTransactionInformationResponseBodyType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="getTransactionInformationResponseBodyType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="ticketId"
+						type="s:nonNegativeInteger" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="entityCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="transactionValue" type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="vatValue"
+						type="s0:AmountType" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="soliciteDate" type="s:date" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="bankProcessDate" type="s:date" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="transactionCycle" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="transactionState"
+						type="s0:getTransactionInformationResponseTransactionStateCodeList" />
+					<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+						type="s0:getTransactionInformationResponseReturnCodeList" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="getTransactionInformationResponseTransactionStateCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="OK" />
+					<s:enumeration value="NOT_AUTHORIZED" />
+					<s:enumeration value="PENDING" />
+					<s:enumeration value="FAILED" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType
+				name="getTransactionInformationResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_INVALIDTRAZABILITYCODE" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+					<s:enumeration value="FAIL_TIMEOUT" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="finalizeTransactionPayment">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="finalizeTransactionPaymentInformation"
+							type="s0:finalizeTransactionPaymentInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="finalizeTransactionPaymentInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="entityCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="finalizeTransactionPaymentResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="finalizeTransactionPaymentResponseInformation"
+							type="s0:finalizeTransactionPaymentResponseInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="finalizeTransactionPaymentResponseInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+						type="s0:finalizeTransactionPaymentResponseReturnCodeList" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="finalizeTransactionPaymentResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_INVALIDTRAZABILITYCODE" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+					<s:enumeration value="FAIL_INVALIDSTATE" />
+					<s:enumeration value="FAIL_TIMEOUT" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="getConciliationFile">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="getConciliationFileInformation"
+							type="s0:getConciliationFileInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="getConciliationFileInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="entityOrBankCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="date"
+						type="s:date" />
+					<s:element minOccurs="0" maxOccurs="1" name="cycle"
+						type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="getConciliationFileResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="unbounded"
+							name="files" type="s0:getConciliationFileResponseFileType" />
+						<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+							type="s0:getConciliationFileResponseReturnCodeList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="getConciliationFileResponseFileType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="fileName"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="fileContent"
+						type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="getConciliationFileResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_NOFILESFOUND" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="getFilesACH">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="getFilesACHInformation"
+							type="s0:getFilesACHInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="getFilesACHInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="fileType"
+						type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="getFilesACHResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="unbounded"
+							name="files" type="s0:getFilesACHResponseFileType" />
+						<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+							type="s0:getFilesACHResponseReturnCodeList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType name="getFilesACHResponseFileType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="fileName"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="fileContent"
+						type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="getFilesACHResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_NOFILESFOUND" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="createTransactionPaymentMultiCredit">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="createTransactionPaymentInformationMultiCredit"
+							type="s0:createTransactionPaymentInformationMultiCreditType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="createTransactionPaymentInformationMultiCreditType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="financialInstitutionCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="entityCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="serviceCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="transactionValue" type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="vatValue"
+						type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="ticketId"
+						type="s:nonNegativeInteger" />
+					<s:element minOccurs="0" maxOccurs="1" name="entityurl"
+						type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="userType"
+						type="s0:userTypeListType" />
+					<s:element minOccurs="0" maxOccurs="unbounded"
+						name="referenceNumber" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="soliciteDate" type="s:date" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="paymentDescription" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="unbounded"
+						name="credits" type="s0:multiCreditType" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType name="multiCreditType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="serviceCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="companyIdentification" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="transactionValue" type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="vatValue"
+						type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="extraData"
+						type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element
+				name="createTransactionPaymentMultiCreditResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="createTransactionPaymentMultiCreditResponseInformation"
+							type="s0:createTransactionPaymentMultiCreditResponseInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="createTransactionPaymentMultiCreditResponseInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+						type="s0:createTransactionPaymentMultiCreditResponseReturnCodeList" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="returnCodeDetails" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="bankurl"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="transactionCycle" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="createTransactionPaymentMultiCreditResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_ENTITYNOTEXISTSORDISABLED" />
+					<s:enumeration value="FAIL_BANKNOTEXISTSORDISABLED" />
+					<s:enumeration value="FAIL_SERVICENOTEXISTS" />
+					<s:enumeration value="FAIL_INVALIDAMOUNT" />
+					<s:enumeration value="FAIL_INVALIDSOLICITDATE" />
+					<s:enumeration value="FAIL_BANKUNREACHEABLE" />
+					<s:enumeration value="FAIL_NOTCONFIRMEDBYBANK" />
+					<s:enumeration value="FAIL_CANNOTGETCURRENTCYCLE" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+					<s:enumeration value="FAIL_TIMEOUT" />
+					<s:enumeration value="FAIL_DESCRIPTIONNOTFOUND" />
+					<s:enumeration value="FAIL_EXCEEDEDLIMIT" />
+					<s:enumeration value="FAIL_TRANSACTIONNOTALLOWED" />
+					<s:enumeration value="FAIL_ERRORINCREDITS" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="getTransactionInformationDetailed">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="getTransactionInformationDetailedBody"
+							type="s0:getTransactionInformationDetailedBodyType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="getTransactionInformationDetailedBodyType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="entityCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="getTransactionInformationDetailedResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="getTransactionInformationDetailedResponseBody"
+							type="s0:getTransactionInformationDetailedResponseBodyType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="getTransactionInformationDetailedResponseBodyType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="unbounded"
+						name="field"
+						type="s0:getTransactionInformationDetailedResponseFieldType" />
+					<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+						type="s0:getTransactionInformationDetailedResponseReturnCodeList" />
+				</s:sequence>
+			</s:complexType>
+			<s:complexType
+				name="getTransactionInformationDetailedResponseFieldType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="name"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="value"
+						type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="getTransactionInformationDetailedResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_INVALIDTRAZABILITYCODE" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+					<s:enumeration value="FAIL_TIMEOUT" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element
+				name="finalizeTransactionPaymentWithAuthorizationCode">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="finalizeTransactionPaymentWithAuthorizationCodeInformation"
+							type="s0:finalizeTransactionPaymentWithAuthorizationCodeInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="finalizeTransactionPaymentWithAuthorizationCodeInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="entityCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="authorizationId" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element
+				name="finalizeTransactionPaymentWithAuthorizationCodeResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="finalizeTransactionPaymentWithAuthorizationCodeResponseInformation"
+							type="s0:finalizeTransactionPaymentWithAuthorizationCodeResponseInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="finalizeTransactionPaymentWithAuthorizationCodeResponseInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+						type="s0:finalizeTransactionPaymentWithAuthorizationCodeResponseReturnCodeList" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="finalizeTransactionPaymentWithAuthorizationCodeResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_INVALIDTRAZABILITYCODE" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+					<s:enumeration value="FAIL_INVALIDSTATE" />
+					<s:enumeration value="FAIL_TIMEOUT" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="getTransactionTotals">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="getTransactionTotalsInformation"
+							type="s0:getTransactionTotalsInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="getTransactionTotalsInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="bankCode"
+						type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="startDate"
+						type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="endDate"
+						type="s:dateTime" />
+					<s:element minOccurs="0" maxOccurs="1" name="cycle"
+						type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="getTransactionTotalsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="unbounded"
+							name="totals" type="s0:getTransactionTotalsResponseTotalType" />
+						<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+							type="s0:getTransactionTotalsResponseReturnCodeList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="getTransactionTotalsResponseTotalType">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="type"
+						type="s0:TotalTypeList" />
+					<s:element minOccurs="1" maxOccurs="1" name="quantity"
+						type="s:int" />
+					<s:element minOccurs="0" maxOccurs="1" name="amount"
+						type="s0:AmountType" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="TotalTypeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="OK" />
+					<s:enumeration value="NOT_AUTHORIZED" />
+					<s:enumeration value="PENDING" />
+					<s:enumeration value="FAILED" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType
+				name="getTransactionTotalsResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="getTransactionStatistics">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="getTransactionStatisticsInformation"
+							type="s0:getTransactionStatisticsInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="getTransactionStatisticsInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="bankCode"
+						type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="type"
+						type="s0:statisticsType" />
+					<s:element minOccurs="1" maxOccurs="1" name="periodType"
+						type="s0:statisticsPeriodType" />
+					<s:element minOccurs="1" maxOccurs="1" name="startDate"
+						type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1" name="endDate"
+						type="s:dateTime" />
+					<s:element minOccurs="0" maxOccurs="1" name="parameter"
+						type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType name="statisticsType">
+				<s:restriction base="s:string">
+					<s:enumeration value="WebServiceCallsNumber" />
+					<s:enumeration value="WebServiceCallsAverageDuration" />
+					<s:enumeration value="TransactionsSolvedByMonitor" />
+					<s:enumeration
+						value="TransactionsSolvedByConfirmTransactionPayment" />
+					<s:enumeration
+						value="SequentialFailuresInInitBankPayment" />
+					<s:enumeration
+						value="TransactionsNotAuthorizedByCause" />
+				</s:restriction>
+			</s:simpleType>
+			<s:simpleType name="statisticsPeriodType">
+				<s:restriction base="s:string">
+					<s:enumeration value="LastHalfHour" />
+					<s:enumeration value="LastHour" />
+					<s:enumeration value="Last4Hours" />
+					<s:enumeration value="Last24Hours" />
+					<s:enumeration value="RangeOfDates" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="getTransactionStatisticsResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="unbounded"
+							name="statistics"
+							type="s0:getTransactionStatisticsResponseStatisticType" />
+						<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+							type="s0:getTransactionStatisticsResponseReturnCodeList" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="getTransactionStatisticsResponseStatisticType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="label"
+						type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="successCount" type="s:decimal" />
+					<s:element minOccurs="1" maxOccurs="1" name="errorCount"
+						type="s:decimal" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="getTransactionStatisticsResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="authorizeTransactionPayment">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="authorizeTransactionPaymentInformation"
+							type="s0:authorizeTransactionPaymentInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="authorizeTransactionPaymentInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1" name="bankCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ticketId"
+						type="s:nonNegativeInteger" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="transactionValue" type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="errorCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="serviceCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="authorizationCodeEF" type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:element name="authorizeTransactionPaymentResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="authorizeTransactionPaymentResponseInformation"
+							type="s0:authorizeTransactionPaymentResponseInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="authorizeTransactionPaymentResponseInformationType">
+				<s:sequence>
+					<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+						type="s0:authorizeTransactionPaymentResponseReturnCodeList" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="ticketId"
+						type="s:nonNegativeInteger" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="authorizeTransactionPaymentResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+					<s:enumeration value="FAIL_NOTCONFIGURED" />
+					<s:enumeration value="FAIL_INVALIDDATETIME" />
+					<s:enumeration value="FAIL_INVALIDTRAZABILITYCODE" />
+					<s:enumeration value="FAIL_INVALIDSTATE" />
+					<s:enumeration value="FAIL_INVALIDTICKETID" />
+					<s:enumeration value="FAIL_INVALIDAMOUNT" />
+					<s:enumeration value="FAIL_INVALIDERRORCODE" />
+					<s:enumeration value="FAIL_INVALIDSERVICECODE" />
+					<s:enumeration
+						value="FAIL_INVALIDAUTHORIZATIONCODEEF" />
+					<s:enumeration value="FAIL_CANNOTCONTACTDIAN" />
+					<s:enumeration value="FAIL_INVALIDSTATEINDIAN" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="confirmTransactionPaymentFD">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="confirmTransactionPaymentFDInformation"
+							type="s0:confirmTransactionPaymentFDInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="confirmTransactionPaymentFDInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="financialInstitutionCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="entityCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="transactionValue" type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="vatValue"
+						type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="ticketId"
+						type="s:nonNegativeInteger" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="soliciteDate" type="s:date" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="bankProcessDate" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="transactionState"
+						type="s0:confirmTransactionPaymentFDTransactionStateCodeList" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="authorizationId" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="payerAccountLast4Digits" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="payerId"
+						type="s:string" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="confirmTransactionPaymentFDTransactionStateCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="OK" />
+					<s:enumeration value="NOT_AUTHORIZED" />
+					<s:enumeration value="PENDING" />
+					<s:enumeration value="FAILED" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="confirmTransactionPaymentFDResponse">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="confirmTransactionPaymentFDResponseInformation"
+							type="s0:confirmTransactionPaymentFDResponseInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="confirmTransactionPaymentFDResponseInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+						type="s0:confirmTransactionPaymentFDResponseReturnCodeList" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="transactionState"
+						type="s0:confirmTransactionPaymentFDTransactionStateCodeList" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="confirmTransactionPaymentFDResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_INVALIDTRAZABILITYCODE" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+					<s:enumeration value="FAIL_INVALIDSTATE" />
+					<s:enumeration value="FAIL_INVALIDBANKPROCESSINGDATE" />
+					<s:enumeration value="FAIL_INVALIDAUTHORIZEDAMOUNT" />
+					<s:enumeration value="FAIL_INCONSISTENTDATA" />
+					<s:enumeration value="FAIL_TIMEOUT" />
+					<s:enumeration value="FAIL_INVALIDVATVALUE" />
+					<s:enumeration value="FAIL_INVALIDTICKETID" />
+					<s:enumeration value="FAIL_INVALIDSOLICITEDATE" />
+					<s:enumeration value="FAIL_INVALIDAUTHORIZATIONID" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="confirmTransactionPayment2">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="confirmTransactionPayment2Information"
+							type="s0:confirmTransactionPayment2InformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="confirmTransactionPayment2InformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="financialInstitutionCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="entityCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="transactionValue" type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="vatValue"
+						type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="ticketId"
+						type="s:nonNegativeInteger" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="soliciteDate" type="s:date" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="bankProcessDate" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="transactionState"
+						type="s0:confirmTransactionPayment2TransactionStateCodeList" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="authorizationId" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="paymentOrigin" type="s:nonNegativeInteger" />
+					<s:element minOccurs="0" maxOccurs="1" name="paymentMode"
+						type="s:nonNegativeInteger" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="confirmTransactionPayment2TransactionStateCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="OK" />
+					<s:enumeration value="NOT_AUTHORIZED" />
+					<s:enumeration value="PENDING" />
+					<s:enumeration value="FAILED" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="confirmTransactionPayment2Response">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="confirmTransactionPayment2ResponseInformation"
+							type="s0:confirmTransactionPayment2ResponseInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="confirmTransactionPayment2ResponseInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+						type="s0:confirmTransactionPayment2ResponseReturnCodeList" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="transactionState"
+						type="s0:confirmTransactionPayment2TransactionStateCodeList" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="confirmTransactionPayment2ResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_INVALIDTRAZABILITYCODE" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+					<s:enumeration value="FAIL_INVALIDSTATE" />
+					<s:enumeration value="FAIL_INVALIDBANKPROCESSINGDATE" />
+					<s:enumeration value="FAIL_INVALIDAUTHORIZEDAMOUNT" />
+					<s:enumeration value="FAIL_INCONSISTENTDATA" />
+					<s:enumeration value="FAIL_TIMEOUT" />
+					<s:enumeration value="FAIL_INVALIDVATVALUE" />
+					<s:enumeration value="FAIL_INVALIDTICKETID" />
+					<s:enumeration value="FAIL_INVALIDSOLICITEDATE" />
+					<s:enumeration value="FAIL_INVALIDAUTHORIZATIONID" />
+					<s:enumeration
+						value="FAIL_INVALIDPAYMENTORIGINORMODE" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="confirmTransactionPaymentFD2">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="confirmTransactionPaymentFD2Information"
+							type="s0:confirmTransactionPaymentFD2InformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="confirmTransactionPaymentFD2InformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="financialInstitutionCode" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="entityCode"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="transactionValue" type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="vatValue"
+						type="s0:AmountType" />
+					<s:element minOccurs="0" maxOccurs="1" name="ticketId"
+						type="s:nonNegativeInteger" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="soliciteDate" type="s:date" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="bankProcessDate" type="s:dateTime" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="transactionState"
+						type="s0:confirmTransactionPaymentFD2TransactionStateCodeList" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="authorizationId" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="payerAccountLast4Digits" type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1" name="payerId"
+						type="s:string" />
+					<s:element minOccurs="0" maxOccurs="1"
+						name="paymentOrigin" type="s:nonNegativeInteger" />
+					<s:element minOccurs="0" maxOccurs="1" name="paymentMode"
+						type="s:nonNegativeInteger" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="confirmTransactionPaymentFD2TransactionStateCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="OK" />
+					<s:enumeration value="NOT_AUTHORIZED" />
+					<s:enumeration value="PENDING" />
+					<s:enumeration value="FAILED" />
+				</s:restriction>
+			</s:simpleType>
+			<s:element name="confirmTransactionPaymentFD2Response">
+				<s:complexType>
+					<s:sequence>
+						<s:element minOccurs="0" maxOccurs="1"
+							name="confirmTransactionPaymentFD2ResponseInformation"
+							type="s0:confirmTransactionPaymentFD2ResponseInformationType" />
+					</s:sequence>
+				</s:complexType>
+			</s:element>
+			<s:complexType
+				name="confirmTransactionPaymentFD2ResponseInformationType">
+				<s:sequence>
+					<s:element minOccurs="0" maxOccurs="1"
+						name="trazabilityCode" type="s:string" />
+					<s:element minOccurs="1" maxOccurs="1" name="returnCode"
+						type="s0:confirmTransactionPaymentFD2ResponseReturnCodeList" />
+					<s:element minOccurs="1" maxOccurs="1"
+						name="transactionState"
+						type="s0:confirmTransactionPaymentFD2TransactionStateCodeList" />
+				</s:sequence>
+			</s:complexType>
+			<s:simpleType
+				name="confirmTransactionPaymentFD2ResponseReturnCodeList">
+				<s:restriction base="s:string">
+					<s:enumeration value="SUCCESS" />
+					<s:enumeration value="FAIL_INVALIDTRAZABILITYCODE" />
+					<s:enumeration value="FAIL_ACCESSDENIED" />
+					<s:enumeration value="FAIL_INVALIDSTATE" />
+					<s:enumeration value="FAIL_INVALIDBANKPROCESSINGDATE" />
+					<s:enumeration value="FAIL_INVALIDAUTHORIZEDAMOUNT" />
+					<s:enumeration value="FAIL_INCONSISTENTDATA" />
+					<s:enumeration value="FAIL_TIMEOUT" />
+					<s:enumeration value="FAIL_INVALIDVATVALUE" />
+					<s:enumeration value="FAIL_INVALIDTICKETID" />
+					<s:enumeration value="FAIL_INVALIDSOLICITEDATE" />
+					<s:enumeration value="FAIL_INVALIDAUTHORIZATIONID" />
+					<s:enumeration
+						value="FAIL_INVALIDPAYMENTORIGINORMODE" />
+				</s:restriction>
+			</s:simpleType>
+		</s:schema>
+	</wsdl:types>
+	<wsdl:message name="getBankListSoapIn">
+		<wsdl:part name="parameters" element="s0:getBankList" />
+	</wsdl:message>
+	<wsdl:message name="getBankListSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:getBankListResponse" />
+	</wsdl:message>
+	<wsdl:message name="getBankListmessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message name="createTransactionPaymentSoapIn">
+		<wsdl:part name="parameters"
+			element="s0:createTransactionPayment" />
+	</wsdl:message>
+	<wsdl:message name="createTransactionPaymentSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:createTransactionPaymentResponse" />
+	</wsdl:message>
+	<wsdl:message name="createTransactionPaymentmessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message name="confirmTransactionPaymentSoapIn">
+		<wsdl:part name="parameters"
+			element="s0:confirmTransactionPayment" />
+	</wsdl:message>
+	<wsdl:message name="confirmTransactionPaymentSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:confirmTransactionPaymentResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="confirmTransactionPaymentmessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message name="getTransactionInformationSoapIn">
+		<wsdl:part name="parameters"
+			element="s0:getTransactionInformation" />
+	</wsdl:message>
+	<wsdl:message name="getTransactionInformationSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:getTransactionInformationResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="getTransactionInformationmessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message name="finalizeTransactionPaymentSoapIn">
+		<wsdl:part name="parameters"
+			element="s0:finalizeTransactionPayment" />
+	</wsdl:message>
+	<wsdl:message name="finalizeTransactionPaymentSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:finalizeTransactionPaymentResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="finalizeTransactionPaymentmessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message name="getConciliationFileSoapIn">
+		<wsdl:part name="parameters"
+			element="s0:getConciliationFile" />
+	</wsdl:message>
+	<wsdl:message name="getConciliationFileSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:getConciliationFileResponse" />
+	</wsdl:message>
+	<wsdl:message name="getConciliationFilemessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message name="getFilesACHSoapIn">
+		<wsdl:part name="parameters" element="s0:getFilesACH" />
+	</wsdl:message>
+	<wsdl:message name="getFilesACHSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:getFilesACHResponse" />
+	</wsdl:message>
+	<wsdl:message name="getFilesACHmessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message
+		name="createTransactionPaymentMultiCreditSoapIn">
+		<wsdl:part name="parameters"
+			element="s0:createTransactionPaymentMultiCredit" />
+	</wsdl:message>
+	<wsdl:message
+		name="createTransactionPaymentMultiCreditSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:createTransactionPaymentMultiCreditResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="createTransactionPaymentMultiCreditmessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message
+		name="getTransactionInformationDetailedSoapIn">
+		<wsdl:part name="parameters"
+			element="s0:getTransactionInformationDetailed" />
+	</wsdl:message>
+	<wsdl:message
+		name="getTransactionInformationDetailedSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:getTransactionInformationDetailedResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="getTransactionInformationDetailedmessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message
+		name="finalizeTransactionPaymentWithAuthorizationCodeSoapIn">
+		<wsdl:part name="parameters"
+			element="s0:finalizeTransactionPaymentWithAuthorizationCode" />
+	</wsdl:message>
+	<wsdl:message
+		name="finalizeTransactionPaymentWithAuthorizationCodeSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:finalizeTransactionPaymentWithAuthorizationCodeResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="finalizeTransactionPaymentWithAuthorizationCodemessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message name="getTransactionTotalsSoapIn">
+		<wsdl:part name="parameters"
+			element="s0:getTransactionTotals" />
+	</wsdl:message>
+	<wsdl:message name="getTransactionTotalsSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:getTransactionTotalsResponse" />
+	</wsdl:message>
+	<wsdl:message name="getTransactionTotalsmessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message name="getTransactionStatisticsSoapIn">
+		<wsdl:part name="parameters"
+			element="s0:getTransactionStatistics" />
+	</wsdl:message>
+	<wsdl:message name="getTransactionStatisticsSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:getTransactionStatisticsResponse" />
+	</wsdl:message>
+	<wsdl:message name="getTransactionStatisticsmessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message name="authorizeTransactionPaymentSoapIn">
+		<wsdl:part name="parameters"
+			element="s0:authorizeTransactionPayment" />
+	</wsdl:message>
+	<wsdl:message name="authorizeTransactionPaymentSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:authorizeTransactionPaymentResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="authorizeTransactionPaymentmessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message name="confirmTransactionPaymentFDSoapIn">
+		<wsdl:part name="parameters"
+			element="s0:confirmTransactionPaymentFD" />
+	</wsdl:message>
+	<wsdl:message name="confirmTransactionPaymentFDSoapOut">
+		<wsdl:part name="parameters"
+			element="s0:confirmTransactionPaymentFDResponse" />
+	</wsdl:message>
+	<wsdl:message
+		name="confirmTransactionPaymentFDmessageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message name="confirmTransactionPayment2SoapIn">
+		<wsdl:part name="parameters"
+			element="s0:confirmTransactionPayment2" />
+	</wsdl:message>
+	<wsdl:message name="confirmTransactionPayment2SoapOut">
+		<wsdl:part name="parameters"
+			element="s0:confirmTransactionPayment2Response" />
+	</wsdl:message>
+	<wsdl:message
+		name="confirmTransactionPayment2messageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:message name="confirmTransactionPaymentFD2SoapIn">
+		<wsdl:part name="parameters"
+			element="s0:confirmTransactionPaymentFD2" />
+	</wsdl:message>
+	<wsdl:message name="confirmTransactionPaymentFD2SoapOut">
+		<wsdl:part name="parameters"
+			element="s0:confirmTransactionPaymentFD2Response" />
+	</wsdl:message>
+	<wsdl:message
+		name="confirmTransactionPaymentFD2messageHeader">
+		<wsdl:part name="messageHeader" element="s0:messageHeader" />
+	</wsdl:message>
+	<wsdl:portType name="MainServicesImplSoap">
+		<wsdl:operation name="getBankList">
+			<wsdl:input message="tns:getBankListSoapIn" />
+			<wsdl:output message="tns:getBankListSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="createTransactionPayment">
+			<wsdl:input message="tns:createTransactionPaymentSoapIn" />
+			<wsdl:output
+				message="tns:createTransactionPaymentSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="confirmTransactionPayment">
+			<wsdl:input message="tns:confirmTransactionPaymentSoapIn" />
+			<wsdl:output
+				message="tns:confirmTransactionPaymentSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="getTransactionInformation">
+			<wsdl:input message="tns:getTransactionInformationSoapIn" />
+			<wsdl:output
+				message="tns:getTransactionInformationSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="finalizeTransactionPayment">
+			<wsdl:input message="tns:finalizeTransactionPaymentSoapIn" />
+			<wsdl:output
+				message="tns:finalizeTransactionPaymentSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="getConciliationFile">
+			<wsdl:input message="tns:getConciliationFileSoapIn" />
+			<wsdl:output message="tns:getConciliationFileSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="getFilesACH">
+			<wsdl:input message="tns:getFilesACHSoapIn" />
+			<wsdl:output message="tns:getFilesACHSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation
+			name="createTransactionPaymentMultiCredit">
+			<wsdl:input
+				message="tns:createTransactionPaymentMultiCreditSoapIn" />
+			<wsdl:output
+				message="tns:createTransactionPaymentMultiCreditSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation
+			name="getTransactionInformationDetailed">
+			<wsdl:input
+				message="tns:getTransactionInformationDetailedSoapIn" />
+			<wsdl:output
+				message="tns:getTransactionInformationDetailedSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation
+			name="finalizeTransactionPaymentWithAuthorizationCode">
+			<wsdl:input
+				message="tns:finalizeTransactionPaymentWithAuthorizationCodeSoapIn" />
+			<wsdl:output
+				message="tns:finalizeTransactionPaymentWithAuthorizationCodeSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="getTransactionTotals">
+			<wsdl:input message="tns:getTransactionTotalsSoapIn" />
+			<wsdl:output message="tns:getTransactionTotalsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="getTransactionStatistics">
+			<wsdl:input message="tns:getTransactionStatisticsSoapIn" />
+			<wsdl:output
+				message="tns:getTransactionStatisticsSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="authorizeTransactionPayment">
+			<wsdl:input
+				message="tns:authorizeTransactionPaymentSoapIn" />
+			<wsdl:output
+				message="tns:authorizeTransactionPaymentSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="confirmTransactionPaymentFD">
+			<wsdl:input
+				message="tns:confirmTransactionPaymentFDSoapIn" />
+			<wsdl:output
+				message="tns:confirmTransactionPaymentFDSoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="confirmTransactionPayment2">
+			<wsdl:input message="tns:confirmTransactionPayment2SoapIn" />
+			<wsdl:output
+				message="tns:confirmTransactionPayment2SoapOut" />
+		</wsdl:operation>
+		<wsdl:operation name="confirmTransactionPaymentFD2">
+			<wsdl:input
+				message="tns:confirmTransactionPaymentFD2SoapIn" />
+			<wsdl:output
+				message="tns:confirmTransactionPaymentFD2SoapOut" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="MainServicesImplSoap"
+		type="tns:MainServicesImplSoap">
+		<soap:binding
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getBankList">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getBankList"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:getBankListmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:getBankListmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="createTransactionPayment">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/createTransactionPayment"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:createTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:createTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="confirmTransactionPayment">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/confirmTransactionPayment"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:confirmTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:confirmTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getTransactionInformation">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getTransactionInformation"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:getTransactionInformationmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:getTransactionInformationmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="finalizeTransactionPayment">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/finalizeTransactionPayment"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:finalizeTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:finalizeTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getConciliationFile">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getConciliationFile"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:getConciliationFilemessageHeader" part="messageHeader"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:getConciliationFilemessageHeader" part="messageHeader"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getFilesACH">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getFilesACH"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header message="tns:getFilesACHmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header message="tns:getFilesACHmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation
+			name="createTransactionPaymentMultiCredit">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/createTransactionPaymentMultiCredit"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:createTransactionPaymentMultiCreditmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:createTransactionPaymentMultiCreditmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation
+			name="getTransactionInformationDetailed">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getTransactionInformationDetailed"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:getTransactionInformationDetailedmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:getTransactionInformationDetailedmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation
+			name="finalizeTransactionPaymentWithAuthorizationCode">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/finalizeTransactionPaymentWithAuthorizationCode"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:finalizeTransactionPaymentWithAuthorizationCodemessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:finalizeTransactionPaymentWithAuthorizationCodemessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getTransactionTotals">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getTransactionTotals"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:getTransactionTotalsmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:getTransactionTotalsmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getTransactionStatistics">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getTransactionStatistics"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:getTransactionStatisticsmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:getTransactionStatisticsmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="authorizeTransactionPayment">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/authorizeTransactionPayment"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:authorizeTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:authorizeTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="confirmTransactionPaymentFD">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/confirmTransactionPaymentFD"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:confirmTransactionPaymentFDmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:confirmTransactionPaymentFDmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="confirmTransactionPayment2">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/confirmTransactionPayment2"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:confirmTransactionPayment2messageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:confirmTransactionPayment2messageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="confirmTransactionPaymentFD2">
+			<soap:operation
+				soapAction="http://vesta.com.br/pse/MainServices/confirmTransactionPaymentFD2"
+				style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:confirmTransactionPaymentFD2messageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+				<soap:header
+					message="tns:confirmTransactionPaymentFD2messageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="MainServicesImplSoap12"
+		type="tns:MainServicesImplSoap">
+		<soap12:binding
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getBankList">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getBankList"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:getBankListmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:getBankListmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="createTransactionPayment">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/createTransactionPayment"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:createTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:createTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="confirmTransactionPayment">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/confirmTransactionPayment"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:confirmTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:confirmTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getTransactionInformation">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getTransactionInformation"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:getTransactionInformationmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:getTransactionInformationmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="finalizeTransactionPayment">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/finalizeTransactionPayment"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:finalizeTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:finalizeTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getConciliationFile">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getConciliationFile"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:getConciliationFilemessageHeader" part="messageHeader"
+					use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:getConciliationFilemessageHeader" part="messageHeader"
+					use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getFilesACH">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getFilesACH"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:getFilesACHmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header message="tns:getFilesACHmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation
+			name="createTransactionPaymentMultiCredit">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/createTransactionPaymentMultiCredit"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:createTransactionPaymentMultiCreditmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:createTransactionPaymentMultiCreditmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation
+			name="getTransactionInformationDetailed">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getTransactionInformationDetailed"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:getTransactionInformationDetailedmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:getTransactionInformationDetailedmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation
+			name="finalizeTransactionPaymentWithAuthorizationCode">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/finalizeTransactionPaymentWithAuthorizationCode"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:finalizeTransactionPaymentWithAuthorizationCodemessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:finalizeTransactionPaymentWithAuthorizationCodemessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getTransactionTotals">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getTransactionTotals"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:getTransactionTotalsmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:getTransactionTotalsmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getTransactionStatistics">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/getTransactionStatistics"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:getTransactionStatisticsmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:getTransactionStatisticsmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="authorizeTransactionPayment">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/authorizeTransactionPayment"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:authorizeTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:authorizeTransactionPaymentmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="confirmTransactionPaymentFD">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/confirmTransactionPaymentFD"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:confirmTransactionPaymentFDmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:confirmTransactionPaymentFDmessageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="confirmTransactionPayment2">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/confirmTransactionPayment2"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:confirmTransactionPayment2messageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:confirmTransactionPayment2messageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="confirmTransactionPaymentFD2">
+			<soap12:operation
+				soapAction="http://vesta.com.br/pse/MainServices/confirmTransactionPaymentFD2"
+				style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:confirmTransactionPaymentFD2messageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+				<soap12:header
+					message="tns:confirmTransactionPaymentFD2messageHeader"
+					part="messageHeader" use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="MainServicesImpl">
+		<wsdl:port name="MainServicesImplSoap"
+			binding="tns:MainServicesImplSoap">
+			<soap:address
+				location="http://54.91.225.251:8888/PSEWebServices3/mainservices.asmx" />
+		</wsdl:port>
+		<wsdl:port name="MainServicesImplSoap12"
+			binding="tns:MainServicesImplSoap12">
+			<soap12:address
+				location="http://54.91.225.251:8888/PSEWebServices3/mainservices.asmx" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

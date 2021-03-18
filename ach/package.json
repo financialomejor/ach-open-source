@@ -1,0 +1,24 @@
+{
+  "name": "fm-ach-service",
+  "version": "1.0.0",
+  "description": "This project connects to the ACH service in development enviroment, to enable online payments.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/financialomejor/fm-ach-service.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/financialomejor/fm-ach-service/issues"
+  },
+  "homepage": "https://github.com/financialomejor/fm-ach-service#readme",
+  "devDependencies": {},
+  "dependencies": {
+    "serverless-domain-manager": "^5.1.0"
+  }
+}

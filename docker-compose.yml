@@ -1,0 +1,17 @@
+version: '3.9'
+services:
+  ach:
+    build: .
+    ports:
+      - '8080:80'
+      - '8443:443'
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1024k'
+        max-file: '100'
+    deploy:
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - ~/fm-ach-service/ach:/home/fm-ach-service
